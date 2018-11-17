@@ -11,6 +11,10 @@ public class ImageEditor {
 
 	private BufferedImage img;
 	
+	public static void main(String[] args){
+		ImageEditor ie = new ImageEditor("calvin_and_hobbes_4.jpg");
+	}
+	
 	public ImageEditor(String path){
 		try {
 			BufferedImage img = ImageIO.read(new File(path));
