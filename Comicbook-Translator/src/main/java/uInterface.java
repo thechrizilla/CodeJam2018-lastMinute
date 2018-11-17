@@ -8,7 +8,15 @@
  *
  * @author smili
  */
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 public class uInterface extends javax.swing.JFrame {
+    
+    private String destinationLanguage;
+    private String orginalFile;
 
     /**
      * Creates new form uInterface
@@ -96,15 +104,32 @@ public class uInterface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        destinationLanguage = jComboBox1.getSelectedItem().toString();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        javax.swing.JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(new FileNameExtensionFilter(
+                "JPG Images", "jpg"));
+        int returnVal = chooser.showOpenDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            orginalFile = chooser.getSelectedFile().getName();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        if(destinationLanguage != null && orginalFile != null){
+            try{
+                mainPage.translatePage(orginalFile, destinationLanguage);
+            }
+            catch(Exception e){
+                // What???
+            }
+            destinationLanguage = null;
+            orginalFile = null;
+            JOptionPane.showMessageDialog(null, "The file has been saved in the "
+                    + "same directory as the original file was located.");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
