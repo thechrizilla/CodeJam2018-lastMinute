@@ -120,7 +120,7 @@ public class uInterface extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(destinationLanguage != null && orginalFile != null){
             try{
-                mainPage.translatePage(orginalFile, destinationLanguage);
+                translatePage(orginalFile, destinationLanguage);
             }
             catch(Exception e){
                 // What???
@@ -165,6 +165,10 @@ public class uInterface extends javax.swing.JFrame {
                 new uInterface().setVisible(true);
             }
         });
+    }
+    
+    public static void translatePage(String path, String destLang){
+    	
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
