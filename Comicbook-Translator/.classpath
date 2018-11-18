@@ -27,5 +27,6 @@
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/pdfbox-tools-2.0.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/xmlgraphics-commons-1.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/java-json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
