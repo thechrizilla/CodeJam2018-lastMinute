@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.opencv.core.Core;
 
 
 public class Translator {
@@ -16,11 +17,13 @@ public class Translator {
 
 	public static void main(String[] args) throws Exception 
 	{
-		uInterface.translatePage("Untitled.png", "fr");
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+		uInterface.translatePage("test5.png", "fr");
 		
 		//Testing values
-		String comicLanguage = "en", desiredLanguage = "fr", comicSentence = "hello my name is Chris, what is your name?";	
-		String comicTranslation = translateComic (comicLanguage, desiredLanguage, comicSentence);
+//		String comicLanguage = "en", desiredLanguage = "fr", comicSentence = "hello my name is Chris, what is your name?";	
+//		String comicTranslation = translateComic (comicLanguage, desiredLanguage, comicSentence);
 	//	System.out.println(comicTranslation);
 	}
 
@@ -42,7 +45,7 @@ public class Translator {
 
 		URL obj = new URL(googleTranslate);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection(); 
-		con.setRequestProperty("User-Agent", "Chrome/5.0");
+		con.setRequestProperty("User-Agent", "Mozilla/5.0");
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;

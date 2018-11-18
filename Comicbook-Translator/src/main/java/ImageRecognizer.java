@@ -43,6 +43,7 @@ public class ImageRecognizer {
 	public ImageRecognizer(String path){
 		dialogueShapes = new ArrayList<Shape>();
 		contourBounds = new ArrayList<Shape>();
+		contourCenters = new ArrayList<Point>();
 		words = new ArrayList<String>();
 		try {
 			this.path = path;
@@ -105,6 +106,8 @@ public class ImageRecognizer {
 		}
 
 		srcImg = Mat2BufferedImage(original);
+		System.out.println("end of method");
+		saveImgAsFile();
 	}
 
 	static BufferedImage Mat2BufferedImage(Mat matrix)throws Exception {        
@@ -118,7 +121,6 @@ public class ImageRecognizer {
 
 	public void findContours2(){
 		srcImg = imageToBinary.returnImage(path);
-
 
 
 		// Matrix

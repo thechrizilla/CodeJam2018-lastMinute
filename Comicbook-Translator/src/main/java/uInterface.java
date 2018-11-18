@@ -174,11 +174,11 @@ public class uInterface extends javax.swing.JFrame {
 		ImageEditor ie = new ImageEditor(path);
 
 		try {
-			ie.findText();
-			ie.removeText();
-			ArrayList<String> translated = Translator.translateAll(ie.getWords(), "en", destLang);
-			ie.addText(translated);
-			ie.saveImgAsFile("png", "-translated");
+			ie.findContoursAndFill();
+//			ie.findText();
+//			ArrayList<String> translated = Translator.translateAll(ie.getWords(), "en", destLang);
+//			ie.addText(ie.getWords());
+//			ie.saveImgAsFile("png", "-translated");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
