@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfPoint;
@@ -58,6 +59,14 @@ public class ImageEditor {
 			e.printStackTrace();
 		}
 	}
+	
+	// For testing
+//	public static void main(String[] args) throws Exception 
+//	{
+//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+//		translatePage("comicTest1.jpg", "fr");
+//	}
+	
 
 	public void findContoursAndFill() throws Exception{
 		// Import image
@@ -143,4 +152,24 @@ public class ImageEditor {
 		BufferedImage bi=ImageIO.read(new ByteArrayInputStream(ba));
 		return bi;
 	}
+	
+	public static void translatePage(String path, String destLang){
+		ImageEditor ie = new ImageEditor(path);
+
+		try {
+			ie.findContoursAndFill();
+			ie.findText();
+//			ArrayList<String> translated = Translator.translateAll(ie.getWords(), "en", destLang);
+			ie.addText(ie.getWords());
+			ie.saveImgAsFile("png", "-translated");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

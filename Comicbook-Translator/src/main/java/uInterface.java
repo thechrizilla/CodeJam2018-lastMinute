@@ -16,6 +16,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.opencv.core.Core;
+
 public class uInterface extends javax.swing.JFrame {
 
 	private String destinationLanguage;
@@ -123,7 +125,8 @@ public class uInterface extends javax.swing.JFrame {
 	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 		if(destinationLanguage != null && orginalFile != null){
 			try{
-				translatePage(orginalFile, destinationLanguage);
+				System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+				ImageEditor.translatePage(orginalFile, destinationLanguage);
 			}
 			catch(Exception e){
 				// What???
@@ -168,25 +171,6 @@ public class uInterface extends javax.swing.JFrame {
 				new uInterface().setVisible(true);
 			}
 		});
-	}
-
-	public static void translatePage(String path, String destLang){
-		ImageEditor ie = new ImageEditor(path);
-
-		try {
-			ie.findContoursAndFill();
-			ie.findText();
-//			ArrayList<String> translated = Translator.translateAll(ie.getWords(), "en", destLang);
-			ie.addText(ie.getWords());
-			ie.saveImgAsFile("png", "-translated");
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

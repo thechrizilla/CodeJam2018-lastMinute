@@ -14,19 +14,6 @@ import org.opencv.core.Core;
 
 public class Translator {
 
-
-	public static void main(String[] args) throws Exception 
-	{
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
-		uInterface.translatePage("comicTest1.jpg", "fr");
-		
-		//Testing values
-//		String comicLanguage = "en", desiredLanguage = "fr", comicSentence = "hello my name is Chris, what is your name?";	
-//		String comicTranslation = translateComic (comicLanguage, desiredLanguage, comicSentence);
-	//	System.out.println(comicTranslation);
-	}
-
 	public static String translateComic (String comicLanguage, String languageWanted, String sentence) throws Exception 
 	{
 		Translator http = new Translator();
