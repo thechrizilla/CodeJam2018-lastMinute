@@ -163,7 +163,7 @@ public class ImageRecognizer {
 
 	private void saveImgAsFile(){
 		try {
-			ImageIO.write(srcImg, "png", new File("saved.jpg"));
+			ImageIO.write(this.srcImg, "png", new File("saved.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -175,10 +175,10 @@ public class uInterface extends javax.swing.JFrame {
 
 		try {
 			ie.findContoursAndFill();
-//			ie.findText();
-//			ArrayList<String> translated = Translator.translateAll(ie.getWords(), "en", destLang);
-//			ie.addText(ie.getWords());
-//			ie.saveImgAsFile("png", "-translated");
+			//ie.findText();
+			//ArrayList<String> translated = Translator.translateAll(ie.getWords(), "en", destLang);
+			//ie.addText(ie.getWords());
+			//ie.saveImgAsFile("png", "-translated");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

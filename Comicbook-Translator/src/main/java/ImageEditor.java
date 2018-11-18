@@ -106,7 +106,6 @@ public class ImageEditor {
 		}
 
 		modifiedImg = Mat2BufferedImage(original); // convert the matrix to BufferedImage and work with this 
-		saveImgAsFile("png", "-t");
 	}
 
 	// Find the text and return the shapes the text are in
