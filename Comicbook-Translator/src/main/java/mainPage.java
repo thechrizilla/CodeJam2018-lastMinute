@@ -16,6 +16,10 @@ public class mainPage extends JFrame {
 
 	private JPanel contentPane;
 
+	public static void translatePage(String path, String dstLang){
+		
+	}
+	
 	/**
 	 * Launch the application.
 	 */
