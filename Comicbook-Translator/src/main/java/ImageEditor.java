@@ -59,38 +59,24 @@ public class ImageEditor {
 		}
 	}
 
-	public static void main(String[] args) {
-		ImageEditor ie = new ImageEditor("test5.png");
-
-//		// testing lines
-//		Shape[] myShapes = new Shape[1];
-//		myShapes[0] = new Rectangle(50,50,10,10);
-//		String[] myStr = new String[1];
-//		myStr[0] = "House of Potter";
-
-		// ie.addText();
-	}
-
-
 	public void findContoursAndFill() throws Exception{
-		// Matrix
+		// Import image
 		Mat src = Imgcodecs.imread(path, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
-		// Grayscale the image
-		// Imgproc.cvtColor(src, srcGray, Imgproc.COLOR_BGR2GRAY);
+		
+		// Pre process image for contour recognition
 		Imgproc.blur(src, src, new Size(3, 3));
 		Mat blurred = new Mat();
 		Mat thresh = new Mat();
-
 		Imgproc.GaussianBlur(src, blurred, new Size(5,5), 0.0);
-		Imgproc.threshold(blurred, thresh, 250, 255, Imgproc.THRESH_BINARY);
+		Imgproc.threshold(blurred, thresh, 245, 255, Imgproc.THRESH_BINARY);
 
-		//		Imgproc.Canny(src, cannyOutput, 250, 255);
 		List<MatOfPoint> contours = new ArrayList<>();
 		Mat hierarchy = new Mat();
 		Imgproc.findContours(thresh, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
 		Mat original = Imgcodecs.imread(path, Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
 
+		// Handle contours
 		for(MatOfPoint c : contours){
 			Moments m = Imgproc.moments(c);
 			double cX = m.m10 / m.m00;
@@ -108,7 +94,6 @@ public class ImageEditor {
 		modifiedImg = Mat2BufferedImage(original); // convert the matrix to BufferedImage and work with this 
 	}
 
-	// Find the text and return the shapes the text are in
 	public void findText() throws IOException, TesseractException{
 		ITesseract it = new Tesseract();
 		BufferedImage bi = ImageIO.read(new File(path));
@@ -117,7 +102,6 @@ public class ImageEditor {
 		for(int i = 0; i < contourBounds.size(); i++){
 			String s = it.doOCR(bi, (Rectangle) contourBounds.get(i));
 			words.add(s);
-			System.out.println(s);
 		}
 	}
 
@@ -128,11 +112,11 @@ public class ImageEditor {
 
 	public void addText(ArrayList<String> translatedWords, Font tf) {
 		Graphics2D graphic = modifiedImg.createGraphics();
-		graphic.setColor(Color.BLACK);
+		graphic.setColor(Color.RED);
 		graphic.setFont(tf);
 		for(int i = 0; i < boundingBoxes.size(); i++){
 			Point location = contourCenters.get(i);
-			graphic.drawString(translatedWords.get(i), (int)location.getX(), (int)location.getY() + contourBounds.get(i).getBounds().height);
+			graphic.drawString(translatedWords.get(i), (int)location.getX(), (int)location.getY());
 		}
 		// saveImgAsFile("jpg", "translated"); // only necessary if you want to save the new file now 
 	}

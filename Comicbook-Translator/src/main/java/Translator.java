@@ -19,7 +19,7 @@ public class Translator {
 	{
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-		uInterface.translatePage("test5.png", "fr");
+		uInterface.translatePage("comicTest1.jpg", "fr");
 		
 		//Testing values
 //		String comicLanguage = "en", desiredLanguage = "fr", comicSentence = "hello my name is Chris, what is your name?";	
