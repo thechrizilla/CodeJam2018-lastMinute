@@ -25,6 +25,9 @@ public class ImageRecognizer {
 	private String path;
 	private Mat srcGray = new Mat();
     private int threshold = 100;
+    
+    private ArrayList<String> words;
+    private ArrayList<Shape> boundingBoxes;
 	
 	public ImageRecognizer(String path){
 		try {
@@ -69,40 +72,47 @@ public class ImageRecognizer {
 
 	public Shape findBubbles(){
 		
-		
 		return null;
 	}
 	
 	// Find the text and return the shapes the text are in
-	public Shape[] findText() throws IOException{
-
+	public void findText() throws IOException{
 		ITesseract it = new Tesseract();
-		it.setLanguage("eng");
-		long start = System.currentTimeMillis();
 		BufferedImage bufferedImage = ImageIO.read(new File(path));
+		it.setLanguage("eng");
+		
+		long start = System.currentTimeMillis();
+		
 		for (Word word : it.getWords(bufferedImage, ITessAPI.TessPageIteratorLevel.RIL_TEXTLINE)) {
 			Rectangle boundingBox = word.getBoundingBox();
-			System.out.println(""+boundingBox);		// Store these in an array
-			System.out.println(""+ word);			// store in array
+			boundingBoxes.add(boundingBox);
+			words.add("" + word.toString());
+			
+			System.out.println("" + boundingBox);	
+			System.out.println("" + word);
 		}
 		System.out.println("time = " + (System.currentTimeMillis() - start));
-
-		return null;
 	}
 
 	public String getImgText(String imageLocation) {
 
 		ITesseract instance = new Tesseract();
-
 		try{
 			String imgText = instance.doOCR(new File(imageLocation));
 			return imgText;
 		} 
-
 		catch (TesseractException e){
 			e.getMessage();
 			return "Error while reading image";
 		}
+	}
+	
+	public ArrayList<Shape> getBoundingBoxes(){
+		return boundingBoxes;
+	}
+	
+	public ArrayList<String> getWords(){
+		return words;
 	}
 
 }
