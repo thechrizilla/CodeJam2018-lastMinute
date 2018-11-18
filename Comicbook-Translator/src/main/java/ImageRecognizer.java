@@ -64,7 +64,6 @@ public class ImageRecognizer {
 	}
 
 
-
 	public void findContours(){
 		// Matrix
 		Mat src = Imgcodecs.imread(path, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
