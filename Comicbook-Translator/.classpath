@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/dist/tess4j-3.4.8.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Tess4J"/>
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/commons-beanutils-1.9.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/commons-io-2.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/commons-logging-1.2.jar"/>
@@ -26,7 +27,5 @@
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/pdfbox-tools-2.0.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/Tess4J/lib/xmlgraphics-commons-1.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/OpenCV/opencv/build/java/opencv-400.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Omri/Documents/- School/OTHER/CodeJam 2018/OpenCV/opencv/build/java/x64"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
