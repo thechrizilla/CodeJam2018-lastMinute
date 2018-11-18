@@ -40,13 +40,11 @@ public class ImageEditor {
 	private BufferedImage modifiedImg;
 	private BufferedImage gsImg;
 
-	private ArrayList<Shape> boundingBoxes;
 	private ArrayList<String> words;
 	private ArrayList<Shape> contourBounds;
 	private ArrayList<Point> contourCenters;
 
 	public ImageEditor(String path) {
-		boundingBoxes = new ArrayList<Shape>();
 		words = new ArrayList<String>();
 		contourBounds = new ArrayList<Shape>();
 		contourCenters = new ArrayList<Point>();
@@ -61,11 +59,11 @@ public class ImageEditor {
 	}
 	
 	// For testing
-//	public static void main(String[] args) throws Exception 
-//	{
-//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-//		translatePage("comicTest1.jpg", "fr");
-//	}
+	public static void main(String[] args) throws Exception 
+	{
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		translatePage("test2.png", "fr");
+	}
 	
 
 	public void findContoursAndFill() throws Exception{
@@ -77,7 +75,7 @@ public class ImageEditor {
 		Mat blurred = new Mat();
 		Mat thresh = new Mat();
 		Imgproc.GaussianBlur(src, blurred, new Size(5,5), 0.0);
-		Imgproc.threshold(blurred, thresh, 245, 255, Imgproc.THRESH_BINARY);
+		Imgproc.threshold(blurred, thresh, 250, 255, Imgproc.THRESH_BINARY);
 
 		List<MatOfPoint> contours = new ArrayList<>();
 		Mat hierarchy = new Mat();
@@ -111,6 +109,7 @@ public class ImageEditor {
 		for(int i = 0; i < contourBounds.size(); i++){
 			String s = it.doOCR(bi, (Rectangle) contourBounds.get(i));
 			words.add(s);
+			System.out.println(s);
 		}
 	}
 
@@ -123,7 +122,7 @@ public class ImageEditor {
 		Graphics2D graphic = modifiedImg.createGraphics();
 		graphic.setColor(Color.RED);
 		graphic.setFont(tf);
-		for(int i = 0; i < boundingBoxes.size(); i++){
+		for(int i = 0; i < contourBounds.size(); i++){
 			Point location = contourCenters.get(i);
 			graphic.drawString(translatedWords.get(i), (int)location.getX(), (int)location.getY());
 		}
