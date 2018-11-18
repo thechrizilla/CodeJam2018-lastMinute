@@ -16,7 +16,7 @@ public class Translator {
 
 	public static void main(String[] args) throws Exception 
 	{
-		uInterface.translatePage("46375920_327441577809028_96617801879388160_n.png", "fr");
+		uInterface.translatePage("Untitled.png", "fr");
 		
 		//Testing values
 		String comicLanguage = "en", desiredLanguage = "fr", comicSentence = "hello my name is Chris, what is your name?";	

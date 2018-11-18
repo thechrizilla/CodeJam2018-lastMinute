@@ -13,8 +13,10 @@ import javax.imageio.ImageIO;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -34,10 +36,13 @@ public class ImageRecognizer {
 
 	private ArrayList<Shape> bubbles;
 	private ArrayList<String> words;
-	private ArrayList<Shape> boundingBoxes;
+	private ArrayList<Shape> dialogueShapes;
+	private ArrayList<Shape> contourBounds;
+	private ArrayList<Point> contourCenters;
 
 	public ImageRecognizer(String path){
-		boundingBoxes = new ArrayList<Shape>();
+		dialogueShapes = new ArrayList<Shape>();
+		contourBounds = new ArrayList<Shape>();
 		words = new ArrayList<String>();
 		try {
 			this.path = path;
@@ -52,10 +57,10 @@ public class ImageRecognizer {
 	public static void main(String[] args){
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-		ImageRecognizer ie = new ImageRecognizer("test4.jpg");
+		ImageRecognizer ie = new ImageRecognizer("test5.png");
 		try {
 
-			ie.findContours2();
+			ie.findContoursAndFill();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,7 +69,7 @@ public class ImageRecognizer {
 	}
 
 
-	public void findContours(){
+	public void findContoursAndFill() throws Exception{
 		// Matrix
 		Mat src = Imgcodecs.imread(path, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
 		// Grayscale the image
@@ -73,35 +78,49 @@ public class ImageRecognizer {
 		Mat cannyOutput = new Mat();
 		Mat blurred = new Mat();
 		Mat thresh = new Mat();
+		Mat thresh2 = new Mat();
 
 		Imgproc.GaussianBlur(src, blurred, new Size(5,5), 0.0);
-		Imgproc.threshold(blurred, thresh, 60, 255, Imgproc.THRESH_BINARY);
+		Imgproc.threshold(blurred, thresh, 250, 255, Imgproc.THRESH_BINARY);
 
-		Imgproc.Canny(src, cannyOutput, threshold, threshold * 2);
+//		Imgproc.Canny(src, cannyOutput, 250, 255);
 		List<MatOfPoint> contours = new ArrayList<>();
 		Mat hierarchy = new Mat();
 		Imgproc.findContours(thresh, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
+		Mat original = Imgcodecs.imread(path, Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+		
 		for(MatOfPoint c : contours){
 			Moments m = Imgproc.moments(c);
 			double cX = m.m10 / m.m00;
 			double cY = m.m01 / m.m00;
 			Point p = new Point(cX, cY);
-
-
-			Graphics2D graphic = srcImg.createGraphics();
-			graphic.setColor(Color.RED);
-			graphic.fill(new Rectangle((int) cX,(int) cY, 10, 10));
-
-
-			// Imgproc.circle(src, p, 7, new Scalar(0), -1);
+			contourCenters.add(p);
+			Rect rect = Imgproc.boundingRect(c);
+			Rectangle r = new Rectangle(rect.x, rect.y, rect.width, rect.height);
+			contourBounds.add(r);
+			
+			Imgproc.drawContours(original, contours, -2, new Scalar(0, 0, 0));
+			Imgproc.fillPoly(original, contours, new Scalar(255, 255, 255));
 		}
 
-		saveImgAsFile();
+		srcImg = Mat2BufferedImage(original);
+	}
 
+	static BufferedImage Mat2BufferedImage(Mat matrix)throws Exception {        
+		MatOfByte mob=new MatOfByte();
+		Imgcodecs.imencode(".jpg", matrix, mob);
+		byte ba[]=mob.toArray();
+
+		BufferedImage bi=ImageIO.read(new ByteArrayInputStream(ba));
+		return bi;
 	}
 
 	public void findContours2(){
+		srcImg = imageToBinary.returnImage(path);
+
+
+
 		// Matrix
 		//Mat src = Imgcodecs.imread(path, Imgcodecs.CV_LOAD_IMAGE_COLOR);
 		Mat src = Imgcodecs.imread(path);
@@ -142,7 +161,7 @@ public class ImageRecognizer {
 
 	private void saveImgAsFile(){
 		try {
-			ImageIO.write(srcImg, "jpg", new File("saved.jpg"));
+			ImageIO.write(srcImg, "png", new File("saved.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -154,24 +173,40 @@ public class ImageRecognizer {
 	}
 
 	// Find the text and return the shapes the text are in
-	public void findText() throws IOException{
+	public void findText() throws IOException, TesseractException{
 		ITesseract it = new Tesseract();
 		BufferedImage bufferedImage = ImageIO.read(new File(path));
 		it.setLanguage("eng");
 
-		long start = System.currentTimeMillis();
+		// long start = System.currentTimeMillis();
+		ArrayList<Shape> boundingBoxes = new ArrayList<Shape>();
+		boundingBoxes.add(null);
+
+		for(int i = 0; i < boundingBoxes.size(); i++){
+			String s = it.doOCR(srcImg, (Rectangle) boundingBoxes.get(i));
+			words.add(s);
+			System.out.println(s);
+		}
+	}
+
+	public void findText2() throws IOException{
+		ITesseract it = new Tesseract();
+		BufferedImage bufferedImage = ImageIO.read(new File(path));
+		it.setLanguage("eng");
+
+		// long start = System.currentTimeMillis();
 
 		for (Word word : it.getWords(bufferedImage, ITessAPI.TessPageIteratorLevel.RIL_TEXTLINE)) {
 			Rectangle boundingBox = word.getBoundingBox();
-			boundingBoxes.add(boundingBox);
-			words.add("" + word.toString());
-
 			System.out.println("" + boundingBox);	
+			dialogueShapes.add(boundingBox);
+			System.out.println("Boxes size: " + dialogueShapes.size());
 			System.out.println("" + word);
+			words.add("" + word.toString());
 		}
-		System.out.println("time = " + (System.currentTimeMillis() - start));
+		System.out.println("boxes final size: " + dialogueShapes.size());
+		// System.out.println("time = " + (System.currentTimeMillis() - start));
 	}
-
 
 
 	public String getImgText(String imageLocation) {
@@ -185,10 +220,6 @@ public class ImageRecognizer {
 			e.getMessage();
 			return "Error while reading image";
 		}
-	}
-
-	public ArrayList<Shape> getBoundingBoxes(){
-		return boundingBoxes;
 	}
 
 	public ArrayList<String> getWords(){

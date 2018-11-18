@@ -58,6 +58,9 @@ public class ImageEditor {
 		// ie.addText();
 	}
 
+	
+	
+	
 	// Find the text and return the shapes the text are in
 	public void findText() throws IOException{
 		ITesseract it = new Tesseract();
@@ -65,7 +68,7 @@ public class ImageEditor {
 		it.setLanguage("eng");
 
 		// long start = System.currentTimeMillis();
-
+		
 		for (Word word : it.getWords(bufferedImage, ITessAPI.TessPageIteratorLevel.RIL_TEXTLINE)) {
 			Rectangle boundingBox = word.getBoundingBox();
 			System.out.println("" + boundingBox);	
@@ -95,6 +98,19 @@ public class ImageEditor {
 	}
 
 	public void addText(ArrayList<String> translatedWords, Font tf) {
+		System.out.println("print rraylist");
+		
+		Graphics2D graphic = img.createGraphics();
+		graphic.setColor(Color.BLACK);
+		graphic.setFont(tf);
+		for(int i = 0; i < boundingBoxes.size(); i++){
+			Point location = boundingBoxes.get(i).getBounds().getLocation();
+			graphic.drawString(translatedWords.get(i), (int)location.getX(), (int)location.getY()+ boundingBoxes.get(i).getBounds().height);
+		}
+		// saveImgAsFile("jpg", "translated"); // only necessary if you want to save the new file now 
+	}
+	
+	public void addText2(ArrayList<String> translatedWords, Font tf) {
 		System.out.println("print rraylist");
 		
 		Graphics2D graphic = img.createGraphics();

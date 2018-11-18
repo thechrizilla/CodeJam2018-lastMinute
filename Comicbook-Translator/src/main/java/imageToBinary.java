@@ -7,8 +7,8 @@ import javax.imageio.ImageIO;
 
 public class imageToBinary {
 
-	public static BufferedImage returnImage(){
-		File originalImage = new File ("RCO018.jpg");
+	public static BufferedImage returnImage(String path){
+		File originalImage = new File (path);
 
 		BufferedImage img = null;
 		BufferedImage grayscaleImage = null;
@@ -51,6 +51,6 @@ public class imageToBinary {
 	}
 
 	public static void main(String[] args) {
-		returnImage();
+		returnImage("");
 	}
 }
