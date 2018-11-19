@@ -1,4 +1,5 @@
 # Comic Translator
+Program to auto-translate English comics to a desired language, effortlessly increasing accessibility to audiences. Made as a submission for the CodeJam 2018 Pattern Recognition Hackathon.
 
 ## Inspiration
 We enjoy comics, we speak different languages. Not all comics are available in every language. We aim to make them accessible to everyone, so everyone can enjoy their favourite stories and characters without the barrier of language.
